@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Угадай число</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#764ba2">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Угадай число">
+<link rel="apple-touch-icon" href="icon.png">
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+.game {
+    background: white;
+    width: 90%;
+    max-width: 400px;
+    padding: 25px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+input {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+button {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #667eea;
+    color: white;
+}
+#message {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.attempts {
+    margin-top: 10px;
+    font-size: 16px;
+}
+</style>
+</head>
+<body>
+
+<div class="game">
+    <h1>🎯 Угадай число</h1>
+    <p>Я загадал число от 1 до 100</p>
+    <input type="number" id="guess" placeholder="Введи число">
+    <button onclick="checkGuess()">Проверить</button>
+    <button onclick="restartGame()">🔄 Заново</button>
+    <div id="message"></div>
+    <div class="attempts">Попытки: <span id="attempts">0</span></div>
+</div>
+
+<script>
+let number = Math.floor(Math.random() * 100) + 1;
+let attempts = 0;
+
+function checkGuess() {
+    const guessInput = document.getElementById("guess");
+    const message = document.getElementById("message");
+    const guess = Number(guessInput.value);
+
+    if (!guess) {
+        message.textContent = "Введите число!";
+        return;
+    }
+    attempts++;
+    document.getElementById("attempts").textContent = attempts;
+    if (guess < number) message.textContent = "📈 Больше";
+    else if (guess > number) message.textContent = "📉 Меньше";
+    else message.textContent = "🎉 Угадал!";
+    guessInput.value = "";
+}
+function restartGame() {
+    number = Math.floor(Math.random() * 100) + 1;
+    attempts = 0;
+    document.getElementById("attempts").textContent = 0;
+    document.getElementById("message").textContent = "";
+}
+</script>
+
+</body>
+</html>
